@@ -80,5 +80,10 @@ async function setupDatabase() {
   }
 }
 
-// Run the setup function
-setupDatabase();
+// Only run setupDatabase when this file is executed directly
+if (require.main === module) {
+  setupDatabase();
+}
+
+// Export the database connection and Track model
+module.exports = { sequelize, Track };
