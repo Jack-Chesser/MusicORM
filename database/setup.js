@@ -12,6 +12,8 @@ const sequelize = new Sequelize({
   storage: process.env.DATABASE_NAME,
 });
 
+
+
 // Create the Track model
 const Track = sequelize.define("Track", {
   // Primary key that automatically increases
@@ -55,3 +57,28 @@ const Track = sequelize.define("Track", {
     type: DataTypes.INTEGER,
   },
 });
+
+
+
+// Create an async function to set up the database
+async function setupDatabase() {
+  try {
+    // Test the connection to the database
+    await sequelize.authenticate();
+
+    // Create the table based on the Track model
+    await sequelize.sync();
+
+    // Display success message
+    console.log("Database and tables created successfully.");
+  } catch (error) {
+    // Display any errors
+    console.error("Error creating database:", error);
+  } finally {
+    // Close the database connection
+    await sequelize.close();
+  }
+}
+
+// Run the setup function
+setupDatabase();
